@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      recipe_user_favorite.belongsTo(models.recipe);
+      recipe_user_favorite.belongsTo(models.user);
       // define association here
     }
   }

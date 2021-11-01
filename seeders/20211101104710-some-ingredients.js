@@ -157,19 +157,19 @@ module.exports = {
         },
         {
           name: "Cumin",
-          unit: "cup",
+          unit: "teaspoon",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Tomato sauce",
-          unit: "cup",
+          unit: "ml",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Tomato",
-          unit: "cup",
+          unit: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -241,6 +241,18 @@ module.exports = {
         },
         {
           name: "Potato",
+          unit: "grams",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Pork",
+          unit: "grams",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Chicken tighs",
           unit: "grams",
           createdAt: new Date(),
           updatedAt: new Date(),

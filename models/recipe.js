@@ -8,6 +8,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      recipe.belongsToMany(models.user, {
+        through: "recipe_user_ratings",
+        foreignKey: "recipeId",
+        as: "ratings",
+      }),
+        recipe.belongsToMany(models.user, {
+          through: "recipe_user_favorites",
+          foreignKey: "recipeId",
+          as: "favorites",
+        }),
+        recipe.belongsTo(models.user); //don't need the
       // define association here
     }
   }
@@ -17,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       description: { type: DataTypes.TEXT, allowNull: false },
       content: { type: DataTypes.TEXT, allowNull: false },
       imageUrl: { type: DataTypes.STRING, allowNull: false },
-      creatorId: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
     },
     {
       sequelize,

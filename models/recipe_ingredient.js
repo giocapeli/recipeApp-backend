@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      recipe_ingredient.belongsTo(models.recipe);
+      recipe_ingredient.belongsTo(models.ingredient);
       // define association here
     }
   }
@@ -15,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       recipeId: DataTypes.INTEGER,
       ingredientId: DataTypes.INTEGER,
+      quantity: DataTypes.FLOAT,
     },
     {
       sequelize,

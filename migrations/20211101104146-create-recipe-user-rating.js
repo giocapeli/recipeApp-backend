@@ -10,9 +10,21 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       recipeId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "recipes",
+          key: "id",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       },
       rating: {
         type: Sequelize.INTEGER,

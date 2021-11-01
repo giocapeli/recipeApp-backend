@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           title: "Taco Meat",
-          creatorId: 1,
+          userId: 1,
           description:
             "This recipe makes just the taco meat. You have to buy everything else, of course. Make a big batch and use for a multiple of different meals: add to bean burritos for a more hearty and tasty burrito, or add a can of beans (kidney, red, or pinto) and use for Frito® Pie, Navajo tacos, or taco salad.",
           content:
@@ -19,7 +19,7 @@ module.exports = {
         },
         {
           title: "Spicy Grilled Cheese Sandwich",
-          creatorId: 1,
+          userId: 1,
           description:
             "Grilled cheese with onions, tomatoes and jalapenos-- tastier than the original!",
           content:
@@ -31,7 +31,7 @@ module.exports = {
         },
         {
           title: "Vegetarian Chickpea Sandwich Filling",
-          creatorId: 1,
+          userId: 1,
           description:
             "Serve this tasty sandwich spread on crusty whole grain rolls or pita bread, with lettuce and tomato. Other raw, chopped vegetables can be substituted for the celery. Your favorite salad dressing can be substituted for the mayo.",
           content:
@@ -43,7 +43,7 @@ module.exports = {
         },
         {
           title: "Geneva's Ultimate Hungarian Mushroom Soup",
-          creatorId: 1,
+          userId: 1,
           description:
             "A warm, filling soup that is a wonderful cool weather lunch or dinner and is especially great with a side of multi-grain bread! I load up on thickly cut mushrooms and use traditional Hungarian Sweet Paprika. Um! Definitely use the tomato and pepper. It gives it a totally different flavor. You may serve immediately or refrigerate and reheat. I find that the soup just as good if not better the next day. Use a ripe tomato. Also, if you can't find a Hungarian wax pepper, try another mild chile pepper and just use a smaller piece.",
           content:
@@ -55,7 +55,7 @@ module.exports = {
         },
         {
           title: "Creamy Italian White Bean Soup",
-          creatorId: 1,
+          userId: 1,
           description:
             "Hearty and healthy soup that is a favorite with friends and family. Sounds more difficult than it is. Try it! We're positive you'll be pleased. Serve with grated Parmesan cheese.",
           content:
@@ -67,7 +67,7 @@ module.exports = {
         },
         {
           title: "German Apple Cake",
-          creatorId: 2,
+          userId: 2,
           description:
             "This German Apple Cake is a moist dense cake that keeps well. It has been a family favorite for twenty years.",
           content:
@@ -79,7 +79,7 @@ module.exports = {
         },
         {
           title: "Pecan Pie",
-          creatorId: 2,
+          userId: 2,
           description:
             "This is a wonderfully rich, Southern pie recipe that is the best I've tried!",
           content:
@@ -91,7 +91,7 @@ module.exports = {
         },
         {
           title: "Grilled Pork and Pineapple Kabobs",
-          creatorId: 1,
+          userId: 1,
           description:
             "Ditch the boring grilled chicken for a lean and juicy pork tenderloin with pineapple. Your kids will love the fun new way of eating dinner, and you will love the sweet and savory flavor combos this recipe offers.",
           content:
@@ -103,7 +103,7 @@ module.exports = {
         },
         {
           title: "Chicken Fritters",
-          creatorId: 1,
+          userId: 1,
           description:
             "These chicken fritters are delicious on their own but outstanding with a chicken dipping sauce. Finger food at its best!",
           content:
@@ -115,7 +115,7 @@ module.exports = {
         },
         {
           title: "Easy Roasted Broccoli",
-          creatorId: 1,
+          userId: 1,
           description:
             "Easy roasted broccoli. My favorite part is the roasted sliced stem pieces.",
           content:
@@ -127,7 +127,7 @@ module.exports = {
         },
         {
           title: "",
-          creatorId: 1,
+          userId: 1,
           description: "",
           content: "",
           imageUrl: "",
