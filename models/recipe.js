@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: "recipeId",
           as: "favorites",
         }),
+        recipe.belongsToMany(models.ingredient, {
+          through: "recipe_ingredients",
+          foreignKey: "recipeId",
+        }),
         recipe.belongsTo(models.user); //don't need the
       // define association here
     }
