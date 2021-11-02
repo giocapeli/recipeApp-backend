@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Recipe = require("../models/").recipe;
 const User = require("../models/").user;
+const Rating = require("../models/").recipe_user_rating;
 const Ingredient = require("../models/").ingredient;
 const { Op } = require("sequelize");
 const router = new Router();
@@ -79,9 +80,29 @@ router.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const recipe = await Recipe.findByPk(id, {
-      include: [{ model: Ingredient }],
+      include: [
+        // { model: Recipe, as: "owner" },
+        // { model: Recipe, as: "favorites" },
+        //{ model: Recipe, as: "ratings" },
+        { model: Ingredient },
+      ],
     });
     res.send(recipe);
+  } catch {
+    next(e);
+  }
+});
+
+router.get("/rating/:recipeId", async (req, res, next) => {
+  const recipeId = req.params.recipeId;
+  try {
+    const recipes = await Rating.findAll({ where: { recipeId } });
+    const rating =
+      recipes.reduce(function (sum, current) {
+        return sum + current.rating;
+      }, 0) / recipes.length;
+
+    res.send({ rating, quantity: recipes.length });
   } catch {
     next(e);
   }
