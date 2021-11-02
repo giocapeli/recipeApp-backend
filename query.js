@@ -1,12 +1,14 @@
 const User = require("./models").user;
 const Recipe = require("./models").recipe;
 
-// // async function getUsersWithRecipes() {
-// //   const users = await User.findAll({
-// //     include: { model: Recipe, as: "owner" }, //que
-// //   });
-// //   return users.map((data) => data.get({ plain: true }));
-// // }
+// async function getUsersWithRecipes() {
+//   const users = await User.findAll({
+//     include: { model: Recipe, as: "owner" }, //que
+//   });
+//   return users.map((data) => data.get({ plain: true }));
+// }
+// console.log(getUsersWithRecipes());
+
 // async function getUsersWithRecipes() {
 //   const users = await User.findByPk(2, {
 //     include: [
@@ -17,7 +19,21 @@ const Recipe = require("./models").recipe;
 //   });
 //   return console.log(users);
 // }
-// //getUsersWithRecipes();
+// getUsersWithRecipes();
+
+async function getUsersWithRecipes2() {
+  const users = await User.findOne({
+    where: { email: "admin@admin.com" },
+    include: [
+      { model: Recipe, as: "owner" },
+      { model: Recipe, as: "favorites" },
+      { model: Recipe, as: "ratings" },
+    ],
+  });
+  return console.log(users);
+}
+getUsersWithRecipes2();
+
 // //getUsersWithRecipes().then((data) => console.log(data));
 
 // const bodyString = "Milk, Butter, onion";
@@ -50,34 +66,34 @@ const Recipe = require("./models").recipe;
 //   }
 // }
 // console.log(checkPlural("marshes"));
-const ingredients = ["milk", "oil"];
-const recipeResults = [
-  {
-    name: "x",
-    ingredients: [{ name: "milk" }, { name: "oil" }, { name: "broccoli" }],
-  },
-  {
-    name: "y",
-    ingredients: [{ name: "milk" }, { name: "butter" }, { name: "broccoli" }],
-  },
-  {
-    name: "z",
-    ingredients: [{ name: "milk" }, { name: "oil" }, { name: "ginger" }],
-  },
-];
+// const ingredients = ["milk", "oil"];
+// const recipeResults = [
+//   {
+//     name: "x",
+//     ingredients: [{ name: "milk" }, { name: "oil" }, { name: "broccoli" }],
+//   },
+//   {
+//     name: "y",
+//     ingredients: [{ name: "milk" }, { name: "butter" }, { name: "broccoli" }],
+//   },
+//   {
+//     name: "z",
+//     ingredients: [{ name: "milk" }, { name: "oil" }, { name: "ginger" }],
+//   },
+// ];
 
-function orderRecipes(ingredients, recipesResults) {
-  newArray = recipesResults.map((recipe) => {
-    return {
-      recipe,
-      ingredientsFound: [
-        ...recipe.ingredients.filter((ingredient) =>
-          ingredients.includes(ingredient.name)
-        ),
-      ].map((e) => e.name),
-    };
-  });
-  return newArray;
-}
+// function orderRecipes(ingredients, recipesResults) {
+//   newArray = recipesResults.map((recipe) => {
+//     return {
+//       recipe,
+//       ingredientsFound: [
+//         ...recipe.ingredients.filter((ingredient) =>
+//           ingredients.includes(ingredient.name)
+//         ),
+//       ].map((e) => e.name),
+//     };
+//   });
+//   return newArray;
+// }
 
-console.log(orderRecipes(ingredients, recipeResults));
+// console.log(orderRecipes(ingredients, recipeResults));

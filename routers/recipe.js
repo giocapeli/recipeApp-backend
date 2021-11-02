@@ -64,6 +64,7 @@ router.post("/", async (req, res, next) => {
         activeSearch: ingredientsFound.map((e) => e.name),
         recipes: findByIngredient,
       };
+
       return res.status(200).send(response);
     } else {
       return res.status(400).send({
@@ -80,14 +81,19 @@ router.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const recipe = await Recipe.findByPk(id, {
-      include: [
-        // { model: Recipe, as: "owner" },
-        // { model: Recipe, as: "favorites" },
-        //{ model: Recipe, as: "ratings" },
-        { model: Ingredient },
-      ],
+      include: [{ model: Ingredient }],
     });
-    res.send(recipe);
+
+    const recipes = await Rating.findAll({ where: { recipeId: id } });
+    const rating =
+      recipes.reduce(function (sum, current) {
+        return sum + current.rating;
+      }, 0) / recipes.length;
+
+    res.send({
+      recipe,
+      rating: { averageRating: rating, quantity: recipes.length },
+    });
   } catch {
     next(e);
   }
@@ -107,5 +113,29 @@ router.get("/rating/:recipeId", async (req, res, next) => {
     next(e);
   }
 });
+
+// router.get("/rating/all/1", async (req, res, next) => {
+//   try {
+//     const recipeId = [1, 2, 3];
+//     const recipes = await Rating.findAll({
+//       where: {
+//         [Op.or]: recipeId.map((e) => {
+//           const search = { recipeId: e };
+//           return search;
+//         }),
+//       },
+//     });
+//     const response = recipes.map((e) => {
+//       return { recipeId: e.recipeId, rating: e.rating };
+//     });
+//     // recipes.reduce(function (sum, current) {
+//     //   return sum + current.rating;
+//     // }, 0) / recipes.length;
+
+//     res.send(response);
+//   } catch {
+//     next(e);
+//   }
+// });
 
 module.exports = router;
