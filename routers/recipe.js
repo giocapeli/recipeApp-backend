@@ -29,8 +29,20 @@ function splitAndTrim(array) {
 router.post("/", async (req, res, next) => {
   try {
     const { ingredients } = req.body;
-    //const bodylist = "milk, apples";
     const ingredientList = splitAndTrim(ingredients).map((e) => checkPlural(e));
+    const ingredientsFound = await Ingredient.findAll({
+      where: {
+        [Op.or]: ingredientList.map((e) => {
+          const search = { name: { [Op.iLike]: `%${e}%` } };
+          return search;
+        }),
+      },
+    });
+    if (!ingredientsFound.length > 0) {
+      return res
+        .status(400)
+        .send({ message: "No one of the ingredients were found" });
+    }
 
     const findByIngredient = await Recipe.findAll({
       include: [
@@ -46,15 +58,32 @@ router.post("/", async (req, res, next) => {
       ],
     });
     if (findByIngredient.length > 0) {
-      return res.status(200).send(findByIngredient);
+      const response = {
+        searchInput: ingredientList,
+        activeSearch: ingredientsFound.map((e) => e.name),
+        recipes: findByIngredient,
+      };
+      return res.status(200).send(response);
     } else {
-      return res
-        .status(400)
-        .send({ message: "No one of the ingredients was found" });
+      return res.status(400).send({
+        message: "We could'n find any recipe with the selected ingredients.",
+      });
     }
   } catch (error) {
     console.log(error);
     return res.status(400).send({ message: "Something went wrong, sorry" });
+  }
+});
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const recipe = await Recipe.findByPk(id, {
+      include: [{ model: Ingredient }],
+    });
+    res.send(recipe);
+  } catch {
+    next(e);
   }
 });
 
