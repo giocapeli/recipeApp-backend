@@ -21,9 +21,27 @@ router.post("/login", async (req, res, next) => {
     const user = await User.findOne({
       where: { email },
       include: [
-        { model: Recipe, as: "owner" },
-        { model: Recipe, as: "favorites" },
-        { model: Recipe, as: "ratings" },
+        {
+          model: Recipe,
+          as: "favorites",
+          include: [
+            { model: User, as: "ratings", through: { attributes: ["rating"] } },
+          ],
+        },
+        {
+          model: Recipe,
+          as: "owner",
+          include: [
+            { model: User, as: "ratings", through: { attributes: ["rating"] } },
+          ],
+        },
+        {
+          model: Recipe,
+          as: "ratings",
+          include: [
+            { model: User, as: "ratings", through: { attributes: ["rating"] } },
+          ],
+        },
       ],
     });
 
@@ -33,9 +51,42 @@ router.post("/login", async (req, res, next) => {
       });
     }
 
-    delete user.dataValues["password"]; // don't send back the password hash
+    //delete user.dataValues["password"]; // don't send back the password hash
     const token = toJWT({ userId: user.id });
-    return res.status(200).send({ token, ...user.dataValues });
+    const response = {
+      token: token,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      favorites: user.favorites.map((e) => {
+        return {
+          title: e.title,
+          id: e.id,
+          imageUrl: e.imageUrl,
+          userId: e.userId,
+          ratings: e.ratings.map((e) => e.recipe_user_ratings),
+        };
+      }),
+      owner: user.owner.map((e) => {
+        return {
+          title: e.title,
+          id: e.id,
+          imageUrl: e.imageUrl,
+          userId: e.userId,
+          ratings: e.ratings.map((e) => e.recipe_user_ratings),
+        };
+      }),
+      ratings: user.ratings.map((e) => {
+        return {
+          title: e.title,
+          id: e.id,
+          imageUrl: e.imageUrl,
+          userId: e.userId,
+          ratings: e.ratings.map((e) => e.recipe_user_ratings),
+        };
+      }),
+    };
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(400).send({ message: "Something went wrong, sorry" });
@@ -75,40 +126,68 @@ router.post("/signup", async (req, res) => {
 // - get the users email & name using only their token
 // - checking if a token is (still) valid
 router.get("/me", authMiddleware, async (req, res) => {
-  // don't send back the password hash
-
-  // const user2 = await User.findOne({
-  //   where: { email },
-  //   include: [
-  //     { model: Recipe, as: "owner" },
-  //     { model: Recipe, as: "favorites" },
-  //     { model: Recipe, as: "ratings" },
-  //   ],
-  // });
-  // const owner = await Recipe.findAll({
-  //   where: { userId: req.user.id },
-  // });
-  // const user2 = await User.findOne({
-  //   where: { email },
-  //   include: [
-  //     { model: Recipe, as: "owner" },
-  //     { model: Recipe, as: "favorites" },
-  //     { model: Recipe, as: "ratings" },
-  //   ],
-  // });
-
   const user = await User.findByPk(req.user.id, {
     include: [
-      { model: Recipe, as: "owner" },
-      { model: Recipe, as: "favorites" },
-      { model: Recipe, as: "ratings" },
+      {
+        model: Recipe,
+        as: "favorites",
+        include: [
+          { model: User, as: "ratings", through: { attributes: ["rating"] } },
+        ],
+      },
+      {
+        model: Recipe,
+        as: "owner",
+        include: [
+          { model: User, as: "ratings", through: { attributes: ["rating"] } },
+        ],
+      },
+      {
+        model: Recipe,
+        as: "ratings",
+        include: [
+          { model: User, as: "ratings", through: { attributes: ["rating"] } },
+        ],
+      },
     ],
   });
 
-  delete user.dataValues["password"];
-  //delete req.user.dataValues["password"];
-  res.status(200).send(user);
-  //res.status(200).send({ ...req.user.dataValues, owner });
+  const response = {
+    token: user.token,
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    favorites: user.favorites.map((e) => {
+      return {
+        title: e.title,
+        id: e.id,
+        imageUrl: e.imageUrl,
+        userId: e.userId,
+        ratings: e.ratings.map((e) => e.recipe_user_ratings),
+      };
+    }),
+    owner: user.owner.map((e) => {
+      return {
+        title: e.title,
+        id: e.id,
+        imageUrl: e.imageUrl,
+        userId: e.userId,
+        ratings: e.ratings.map((e) => e.recipe_user_ratings),
+      };
+    }),
+    ratings: user.ratings.map((e) => {
+      return {
+        title: e.title,
+        id: e.id,
+        imageUrl: e.imageUrl,
+        userId: e.userId,
+        ratings: e.ratings.map((e) => e.recipe_user_ratings),
+      };
+    }),
+  };
+
+  //delete user.dataValues["password"];
+  res.status(200).send(response);
 });
 
 module.exports = router;

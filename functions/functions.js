@@ -1,4 +1,4 @@
-export function checkPlural(word) {
+function checkPlural(word) {
   const finalEs = ["s", "h", "x", "z"];
   if (word[word.length - 1] === "s") {
     if (word[word.length - 2] === "e") {
@@ -7,12 +7,13 @@ export function checkPlural(word) {
       } else if (finalEs.includes(word[word.length - 3])) {
         return word.substring(0, word.length - 2);
       }
+      return word.substring(0, word.length - 2);
     }
     return word.substring(0, word.length - 1);
   }
+  return word;
 }
-
-export function splitAndTrim(array) {
+function splitAndTrim(array) {
   const newArray = array.split(",").map((e) => e.trim());
   return newArray;
 }

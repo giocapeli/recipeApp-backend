@@ -5,6 +5,7 @@ const Rating = require("../models/").recipe_user_rating;
 const Ingredient = require("../models/").ingredient;
 const { Op } = require("sequelize");
 const router = new Router();
+//import { checkPlural, splitAndTrim } from "../functions/functions";
 
 //Filtering functions:
 function checkPlural(word) {
@@ -16,6 +17,7 @@ function checkPlural(word) {
       } else if (finalEs.includes(word[word.length - 3])) {
         return word.substring(0, word.length - 2);
       }
+      return word.substring(0, word.length - 2);
     }
     return word.substring(0, word.length - 1);
   }
@@ -27,6 +29,7 @@ function splitAndTrim(array) {
 }
 
 //Endpoints
+//Post to get a list of recipes using keywords
 router.post("/", async (req, res, next) => {
   try {
     const { ingredients } = req.body;
@@ -56,13 +59,24 @@ router.post("/", async (req, res, next) => {
             }),
           },
         },
+        { model: Ingredient, through: { attributes: ["quantity"] } },
+        { model: User, as: "ratings", through: { attributes: ["rating"] } },
       ],
     });
+
     if (findByIngredient.length > 0) {
       const response = {
         searchInput: ingredientList,
         activeSearch: ingredientsFound.map((e) => e.name),
-        recipes: findByIngredient,
+        recipes: findByIngredient.map((e) => {
+          return {
+            title: e.title,
+            id: e.id,
+            imageUrl: e.imageUrl,
+            userId: e.userId,
+            ratings: e.ratings.map((e) => e.recipe_user_ratings),
+          };
+        }),
       };
 
       return res.status(200).send(response);
@@ -77,22 +91,26 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//Get a full recipe by id
 router.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const recipe = await Recipe.findByPk(id, {
-      include: [{ model: Ingredient }],
+      include: [
+        { model: Ingredient, through: { attributes: ["quantity"] } },
+        { model: User, as: "ratings", through: { attributes: ["rating"] } },
+      ],
     });
 
-    const recipes = await Rating.findAll({ where: { recipeId: id } });
-    const rating =
-      recipes.reduce(function (sum, current) {
+    const recipesx = await Rating.findAll({ where: { recipeId: id } });
+    const ratingx =
+      recipesx.reduce(function (sum, current) {
         return sum + current.rating;
-      }, 0) / recipes.length;
+      }, 0) / recipesx.length;
 
     res.send({
       recipe,
-      rating: { averageRating: rating, quantity: recipes.length },
+      rating: { averageRating: ratingx, quantity: recipesx.length },
     });
   } catch {
     next(e);
@@ -113,29 +131,5 @@ router.get("/rating/:recipeId", async (req, res, next) => {
     next(e);
   }
 });
-
-// router.get("/rating/all/1", async (req, res, next) => {
-//   try {
-//     const recipeId = [1, 2, 3];
-//     const recipes = await Rating.findAll({
-//       where: {
-//         [Op.or]: recipeId.map((e) => {
-//           const search = { recipeId: e };
-//           return search;
-//         }),
-//       },
-//     });
-//     const response = recipes.map((e) => {
-//       return { recipeId: e.recipeId, rating: e.rating };
-//     });
-//     // recipes.reduce(function (sum, current) {
-//     //   return sum + current.rating;
-//     // }, 0) / recipes.length;
-
-//     res.send(response);
-//   } catch {
-//     next(e);
-//   }
-// });
 
 module.exports = router;

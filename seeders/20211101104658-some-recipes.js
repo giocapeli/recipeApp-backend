@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           title: "Taco Meat",
-          userId: 1,
+          userId: 2,
           description:
             "This recipe makes just the taco meat. You have to buy everything else, of course. Make a big batch and use for a multiple of different meals: add to bean burritos for a more hearty and tasty burrito, or add a can of beans (kidney, red, or pinto) and use for Frito® Pie, Navajo tacos, or taco salad.",
           content:
@@ -31,7 +31,7 @@ module.exports = {
         },
         {
           title: "Vegetarian Chickpea Sandwich Filling",
-          userId: 1,
+          userId: 2,
           description:
             "Serve this tasty sandwich spread on crusty whole grain rolls or pita bread, with lettuce and tomato. Other raw, chopped vegetables can be substituted for the celery. Your favorite salad dressing can be substituted for the mayo.",
           content:
@@ -43,7 +43,7 @@ module.exports = {
         },
         {
           title: "Geneva's Ultimate Hungarian Mushroom Soup",
-          userId: 1,
+          userId: 3,
           description:
             "A warm, filling soup that is a wonderful cool weather lunch or dinner and is especially great with a side of multi-grain bread! I load up on thickly cut mushrooms and use traditional Hungarian Sweet Paprika. Um! Definitely use the tomato and pepper. It gives it a totally different flavor. You may serve immediately or refrigerate and reheat. I find that the soup just as good if not better the next day. Use a ripe tomato. Also, if you can't find a Hungarian wax pepper, try another mild chile pepper and just use a smaller piece.",
           content:
@@ -55,7 +55,7 @@ module.exports = {
         },
         {
           title: "Creamy Italian White Bean Soup",
-          userId: 1,
+          userId: 3,
           description:
             "Hearty and healthy soup that is a favorite with friends and family. Sounds more difficult than it is. Try it! We're positive you'll be pleased. Serve with grated Parmesan cheese.",
           content:
