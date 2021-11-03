@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const { Router, response } = require("express");
 const Recipe = require("../models/").recipe;
 const User = require("../models/").user;
 const Rating = require("../models/").recipe_user_rating;
@@ -101,17 +101,20 @@ router.get("/:id", async (req, res, next) => {
         { model: User, as: "ratings", through: { attributes: ["rating"] } },
       ],
     });
+    const { title, imageUrl, content, description, ingredients, ratings } =
+      recipe;
+    const response = {
+      title,
+      imageUrl,
+      content,
+      description,
+      ingredients,
+      ratings: ratings.map((e) => e.recipe_user_ratings),
+      //,
+      //ratings: response.ratings.map((e) => e.recipe_user_ratings),
+    };
 
-    const recipesx = await Rating.findAll({ where: { recipeId: id } });
-    const ratingx =
-      recipesx.reduce(function (sum, current) {
-        return sum + current.rating;
-      }, 0) / recipesx.length;
-
-    res.send({
-      recipe,
-      rating: { averageRating: ratingx, quantity: recipesx.length },
-    });
+    res.send(response);
   } catch {
     next(e);
   }
