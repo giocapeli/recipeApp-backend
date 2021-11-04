@@ -2,6 +2,7 @@ const { Router, response } = require("express");
 const Recipe = require("../models/").recipe;
 const User = require("../models/").user;
 const Rating = require("../models/").recipe_user_rating;
+const Favorite = require("../models/").recipe_user_favorite;
 const Ingredient = require("../models/").ingredient;
 const { Op } = require("sequelize");
 const router = new Router();
@@ -110,8 +111,6 @@ router.get("/:id", async (req, res, next) => {
       description,
       ingredients,
       ratings: ratings.map((e) => e.recipe_user_ratings),
-      //,
-      //ratings: response.ratings.map((e) => e.recipe_user_ratings),
     };
 
     res.send(response);
@@ -130,6 +129,86 @@ router.get("/rating/:recipeId", async (req, res, next) => {
       }, 0) / recipes.length;
 
     res.send({ rating, quantity: recipes.length });
+  } catch {
+    next(e);
+  }
+});
+
+router.post("/favorite", async (req, res, next) => {
+  const { userId, recipeId } = req.body;
+
+  try {
+    const favorite = await Favorite.findOne({
+      where: { recipeId, userId },
+    });
+
+    if (favorite) {
+      const destroy = await Favorite.destroy({
+        where: {
+          userId,
+          recipeId,
+        },
+      });
+      res.send({ favorite, message: "deleted" });
+    } else {
+      const created = await Favorite.create({ userId, recipeId });
+      res.send({ favorite: created, message: "created" });
+    }
+  } catch {
+    next(e);
+  }
+});
+
+router.patch("/rating", async (req, res, next) => {
+  const { userId, recipeId, rating } = req.body;
+
+  try {
+    const favorite = await Rating.findOne({
+      where: { recipeId, userId },
+    });
+
+    if (favorite) {
+      const update = await favorite.update({ rating });
+      res.send({ favorite, message: "Updated" });
+    } else {
+      const created = await Rating.create({ userId, recipeId, rating });
+      res.send({ favorite, created, message: "Created" });
+    }
+  } catch {
+    next(e);
+  }
+});
+
+router.post("/createrecipe", async (req, res, next) => {
+  const { title, description, content, imageUrl } = req.body;
+  const userId = 1;
+  try {
+    const newRecipe = await Recipe.create({
+      title,
+      description,
+      content,
+      imageUrl,
+      userId,
+    });
+    res.send(newRecipe);
+  } catch {
+    next(e);
+  }
+});
+
+router.post("/checkingredient", async (req, res, next) => {
+  let { name } = req.body;
+  name = checkPlural(name);
+  try {
+    const findIngredient = await Ingredient.findOne({
+      where: { name: { [Op.iLike]: `%${name}%` } },
+    });
+    if (findIngredient) {
+      res.send(findIngredient);
+    } else {
+      const newIngredient = await Ingredient.create({ name });
+      res.send({ message: "Not Found, creating:", newIngredient });
+    }
   } catch {
     next(e);
   }

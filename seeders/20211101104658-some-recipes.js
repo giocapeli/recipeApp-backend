@@ -19,7 +19,7 @@ module.exports = {
         },
         {
           title: "Spicy Grilled Cheese Sandwich",
-          userId: 1,
+          userId: 2,
           description:
             "Grilled cheese with onions, tomatoes and jalapenos-- tastier than the original!",
           content:
@@ -43,7 +43,7 @@ module.exports = {
         },
         {
           title: "Geneva's Ultimate Hungarian Mushroom Soup",
-          userId: 3,
+          userId: 2,
           description:
             "A warm, filling soup that is a wonderful cool weather lunch or dinner and is especially great with a side of multi-grain bread! I load up on thickly cut mushrooms and use traditional Hungarian Sweet Paprika. Um! Definitely use the tomato and pepper. It gives it a totally different flavor. You may serve immediately or refrigerate and reheat. I find that the soup just as good if not better the next day. Use a ripe tomato. Also, if you can't find a Hungarian wax pepper, try another mild chile pepper and just use a smaller piece.",
           content:
@@ -67,7 +67,7 @@ module.exports = {
         },
         {
           title: "German Apple Cake",
-          userId: 2,
+          userId: 3,
           description:
             "This German Apple Cake is a moist dense cake that keeps well. It has been a family favorite for twenty years.",
           content:
@@ -79,7 +79,7 @@ module.exports = {
         },
         {
           title: "Pecan Pie",
-          userId: 2,
+          userId: 3,
           description:
             "This is a wonderfully rich, Southern pie recipe that is the best I've tried!",
           content:
@@ -122,15 +122,6 @@ module.exports = {
             "Preheat oven to 400 degrees F (200 degrees C). Cut broccoli florets from the stalk. Peel the stalk and slice into 1/4-inch slices. Mix florets and stem pieces with olive oil in a bowl and transfer to a baking sheet; season with salt and pepper. Roast in the preheated oven until broccoli is tender and lightly browned, about 18 minutes.",
           imageUrl:
             "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F1765553.jpg&w=596&h=596&c=sc&poi=face&q=85",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          title: "",
-          userId: 1,
-          description: "",
-          content: "",
-          imageUrl: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

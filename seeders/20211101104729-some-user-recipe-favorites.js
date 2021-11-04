@@ -13,19 +13,25 @@ module.exports = {
         },
         {
           userId: 1,
-          recipeId: 3,
+          recipeId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           userId: 1,
-          recipeId: 4,
+          recipeId: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           userId: 2,
           recipeId: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          userId: 2,
+          recipeId: 8,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -38,6 +44,18 @@ module.exports = {
         {
           userId: 3,
           recipeId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          userId: 3,
+          recipeId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          userId: 3,
+          recipeId: 7,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
