@@ -27,7 +27,12 @@ module.exports = {
         onUpdate: "CASCADE",
       },
       quantity: {
+        allowNull: false,
         type: Sequelize.FLOAT,
+      },
+      unitOfMeasure: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

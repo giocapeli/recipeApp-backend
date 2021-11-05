@@ -17,7 +17,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       recipeId: DataTypes.INTEGER,
       ingredientId: DataTypes.INTEGER,
-      quantity: DataTypes.FLOAT,
+      quantity: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+      },
+      unitOfMeasure: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,

@@ -98,7 +98,10 @@ router.get("/:id", async (req, res, next) => {
     const id = req.params.id;
     const recipe = await Recipe.findByPk(id, {
       include: [
-        { model: Ingredient, through: { attributes: ["quantity"] } },
+        {
+          model: Ingredient,
+          through: { attributes: ["quantity", "unitOfMeasure"] },
+        },
         { model: User, as: "ratings", through: { attributes: ["rating"] } },
       ],
     });
@@ -198,16 +201,19 @@ router.post("/createrecipe", async (req, res, next) => {
 
 router.post("/checkingredient", async (req, res, next) => {
   let { name } = req.body;
-  name = checkPlural(name);
+  name = checkPlural(name).toLowerCase();
   try {
     const findIngredient = await Ingredient.findOne({
       where: { name: { [Op.iLike]: `%${name}%` } },
     });
     if (findIngredient) {
-      res.send(findIngredient);
+      res.send({ message: "Item Found:", ingredientData: findIngredient });
     } else {
       const newIngredient = await Ingredient.create({ name });
-      res.send({ message: "Not Found, creating:", newIngredient });
+      res.send({
+        message: "Not Found, creating:",
+        ingredientData: newIngredient,
+      });
     }
   } catch {
     next(e);
