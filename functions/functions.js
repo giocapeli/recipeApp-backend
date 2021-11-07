@@ -17,3 +17,5 @@ function splitAndTrim(array) {
   const newArray = array.split(",").map((e) => e.trim());
   return newArray;
 }
+
+module.exports = { checkPlural, splitAndTrim };

@@ -49,13 +49,6 @@ module.exports = {
         },
         {
           userId: 2,
-          rating: 4,
-          recipeId: 4,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          userId: 2,
           rating: 5,
           recipeId: 5,
           createdAt: new Date(),
