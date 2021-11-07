@@ -241,57 +241,32 @@ router.post("/createrecipe", async (req, res, next) => {
       imageUrl,
       userId,
     });
-    // const createdIngredients = await ingredientsToCreate.map((e) => {
-    //   const { name, found } = e;
-    //   name.toLowerCase();
-    //    if(e.found){
-    //   const newIngredient = RecipeIngredient.create({
-    //     name,
-    //   });
-    //   return newIngredient}
-    //  return e
-    // });
-    // const ingredientList = [...ingredientsFound, ...createdIngredients];
-    // const recipeIngredient = await ingredientList.map((e) => {
-    //   const { recipeId, ingredientId, quantity, unitOfMeasure } = e;
-    //   RecipeIngredient.create({
-    //     recipeId,
-    //     ingredientId,
-    //     quantity,
-    //     unitOfMeasure,
-    //   });
-    // });
-
+    for (const item of ingredientList) {
+      if (!item.found) {
+        const ingredient = await Ingredient.create({
+          name: item.name,
+        });
+        const recipeIngredient = await RecipeIngredient.create({
+          ingredientId: ingredient.id,
+          recipeId: newRecipe.id,
+          quantity: item.quantity,
+          unitOfMeasure: item.unitOfMeasure,
+        });
+      } else {
+        const recipeIngredient = await RecipeIngredient.create({
+          ingredientId: item.id,
+          recipeId: newRecipe.id,
+          quantity: item.quantity,
+          unitOfMeasure: item.unitOfMeasure,
+        });
+      }
+    }
     res.send({
       ...newRecipe,
       status: "Success",
       message: "New recipe created.",
+      //ingredientList: checkIngredients,
     });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Something went wrong, sorry", status: "Failure" });
-  }
-});
-
-//Check this one again, if it is really needed
-router.post("/checkingredient", async (req, res, next) => {
-  let { name } = req.body;
-  name = checkPlural(name).toLowerCase();
-  try {
-    const findIngredient = await Ingredient.findOne({
-      where: { name: { [Op.iLike]: `%${name}%` } },
-    });
-    if (findIngredient) {
-      res.send({ message: "Item Found:", ingredientData: findIngredient });
-    } else {
-      const newIngredient = await Ingredient.create({ name });
-      res.send({
-        message: "Not Found, creating:",
-        ingredientData: newIngredient,
-      });
-    }
   } catch (error) {
     console.log(error);
     return res
