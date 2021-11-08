@@ -186,7 +186,6 @@ router.get("/me", authMiddleware, async (req, res) => {
     }),
   };
 
-  //delete user.dataValues["password"];
   res.status(200).send(response);
 });
 

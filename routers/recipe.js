@@ -7,6 +7,7 @@ const Ingredient = require("../models/").ingredient;
 const RecipeIngredient = require("../models/").recipe_ingredient;
 const { Op } = require("sequelize");
 const router = new Router();
+const authMiddleware = require("../auth/middleware");
 const { checkPlural, splitAndTrim } = require("../functions/functions");
 
 //Post to get a list of recipes using keywords
@@ -123,7 +124,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.get("/rating/:recipeId", async (req, res, next) => {
+router.get("/rating/:recipeId", authMiddleware, async (req, res, next) => {
   const recipeId = req.params.recipeId;
   try {
     const recipes = await Rating.findAll({ where: { recipeId } });
@@ -152,7 +153,7 @@ router.get("/rating/:recipeId", async (req, res, next) => {
   }
 });
 
-router.post("/favorite", async (req, res, next) => {
+router.post("/favorite", authMiddleware, async (req, res, next) => {
   const { userId, recipeId } = req.body;
 
   try {
@@ -202,7 +203,7 @@ router.post("/favorite", async (req, res, next) => {
   }
 });
 
-router.patch("/rating", async (req, res, next) => {
+router.patch("/rating", authMiddleware, async (req, res, next) => {
   const { userId, recipeId, rating } = req.body;
 
   try {
@@ -230,7 +231,7 @@ router.patch("/rating", async (req, res, next) => {
   }
 });
 
-router.post("/createrecipe", async (req, res, next) => {
+router.post("/createrecipe", authMiddleware, async (req, res, next) => {
   const { title, description, content, imageUrl, userId } = req.body;
   const { ingredientList } = req.body;
   try {

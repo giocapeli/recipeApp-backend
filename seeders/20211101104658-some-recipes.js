@@ -61,7 +61,7 @@ module.exports = {
           content:
             "In a large saucepan, heat oil. Cook onion and celery in oil for 5 to 8 minutes, or until tender. Add garlic, and cook for 30 seconds, continually stirring. Stir in beans, chicken broth, pepper, thyme and 2 cups water. Bring to a boil, reduce heat, and then simmer for 15 minutes. With slotted spoon, remove 2 cups of the bean and vegetable mixture from soup and set aside. In blender at low speed, blend remaining soup in small batches until smooth, (it helps to remove the center piece of the blender lid to allow steam to escape.) Once blended pour soup back into stock pot and stir in reserved beans. Bring to a boil, occasionally stirring. Stir in spinach and cook 1 minute or until spinach is wilted. Stir in lemon juice and remove from heat and serve with fresh grated Parmesan cheese on top.",
           imageUrl:
-            "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F5969286.jpg&w=596&h=596&c=sc&poi=face&q=85",
+            "https://images-gmi-pmc.edge-generalmills.com/47317df9-6453-4d73-a907-088e8fd65ac1.jpg",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
