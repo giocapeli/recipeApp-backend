@@ -266,7 +266,6 @@ router.post("/createrecipe", authMiddleware, async (req, res, next) => {
       ...newRecipe,
       status: "Success",
       message: "New recipe created.",
-      //ingredientList: checkIngredients,
     });
   } catch (error) {
     console.log(error);
