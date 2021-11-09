@@ -76,10 +76,14 @@ router.post("/", async (req, res, next) => {
       status: "Success",
     });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Something went wrong, sorry", status: "Failure" });
+    if (error.response) {
+      console.log(error.response.data.message);
+      dispatch(setMessage("danger", true, error.response.data.message));
+    } else {
+      console.log(error.message);
+      dispatch(setMessage("danger", true, error.message));
+    }
+    dispatch(appDoneLoading());
   }
 });
 
@@ -117,10 +121,14 @@ router.get("/:id", async (req, res, next) => {
 
     res.send({ ...response, message: "Recipe found.", status: "Success" });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Something went wrong, sorry", status: "Failure" });
+    if (error.response) {
+      console.log(error.response.data.message);
+      dispatch(setMessage("danger", true, error.response.data.message));
+    } else {
+      console.log(error.message);
+      dispatch(setMessage("danger", true, error.message));
+    }
+    dispatch(appDoneLoading());
   }
 });
 
@@ -146,10 +154,14 @@ router.get("/rating/:recipeId", authMiddleware, async (req, res, next) => {
       status: "Success",
     });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Something went wrong, sorry", status: "Failure" });
+    if (error.response) {
+      console.log(error.response.data.message);
+      dispatch(setMessage("danger", true, error.response.data.message));
+    } else {
+      console.log(error.message);
+      dispatch(setMessage("danger", true, error.message));
+    }
+    dispatch(appDoneLoading());
   }
 });
 
@@ -157,6 +169,13 @@ router.post("/favorite", authMiddleware, async (req, res, next) => {
   const { userId, recipeId } = req.body;
 
   try {
+    const owner = await Recipe.findOne({ where: { id: recipeId, userId } });
+    if (owner) {
+      return res.status(400).send({
+        message: "You can't favorite your own recipe",
+        status: "Failure",
+      });
+    }
     const favorite = await Favorite.findOne({
       where: { recipeId, userId },
       include: [
@@ -196,10 +215,14 @@ router.post("/favorite", authMiddleware, async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Something went wrong, sorry", status: "Failure" });
+    if (error.response) {
+      console.log(error.response.data.message);
+      dispatch(setMessage("danger", true, error.response.data.message));
+    } else {
+      console.log(error.message);
+      dispatch(setMessage("danger", true, error.message));
+    }
+    dispatch(appDoneLoading());
   }
 });
 
@@ -207,6 +230,13 @@ router.patch("/rating", authMiddleware, async (req, res, next) => {
   const { userId, recipeId, rating } = req.body;
 
   try {
+    const owner = await Recipe.findOne({ where: { id: recipeId, userId } });
+    if (owner) {
+      return res.status(400).send({
+        message: "You can't rate your own recipe",
+        status: "Failure",
+      });
+    }
     const response = await Rating.findOne({
       where: { recipeId, userId },
     });
@@ -224,10 +254,14 @@ router.patch("/rating", authMiddleware, async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Something went wrong, sorry", status: "Failure" });
+    if (error.response) {
+      console.log(error.response.data.message);
+      dispatch(setMessage("danger", true, error.response.data.message));
+    } else {
+      console.log(error.message);
+      dispatch(setMessage("danger", true, error.message));
+    }
+    dispatch(appDoneLoading());
   }
 });
 
@@ -263,15 +297,19 @@ router.post("/createrecipe", authMiddleware, async (req, res, next) => {
       }
     }
     res.send({
-      ...newRecipe,
+      ...newRecipe.dataValues,
       status: "Success",
       message: "New recipe created.",
     });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .send({ message: "Something went wrong, sorry", status: "Failure" });
+    if (error.response) {
+      console.log(error.response.data.message);
+      dispatch(setMessage("danger", true, error.response.data.message));
+    } else {
+      console.log(error.message);
+      dispatch(setMessage("danger", true, error.message));
+    }
+    dispatch(appDoneLoading());
   }
 });
 

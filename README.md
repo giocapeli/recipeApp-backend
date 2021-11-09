@@ -1,142 +1,90 @@
-# Server template
+# WhatShouldICook?
 
-This is a simple server template to for my students to start projects quickly.
+# Frontend
 
-## Table of contents:
+## Intro
 
-- **[Setup](#setup-how-to-use-this-template)**
-- **[Endpoints](#endpoints)**
-- **[Sample requests with axios](#sample-requests-with-axios)**
-- **[Sample requests with httpie](#sample-requests-with-httpie)**
-- **[History of this project (pullrequests)](#history-of-this-project)**
+---
 
-## SETUP How to use this template
+Do you have something in your fridge that is close to expiring, and you don't want to waste it, but you are out of ideas of how to cook it?
+Is your pantry full, but you are still struggling to decide what to eat and are afraid to end having the same soup as every day?
+Did you discover a new recipe that opened your eyes to a new world of flavors, and, as a generous person, you want to share it with everyone?
 
-1. Create a new project based on this template using the `Use this template` button
+**WhatShouldICook?** is an web app that is going to help you to solve all those situations. With **WhatShouldICook?** you can search recipes by ingredients and receive suggestions of how to give good use to that ingredient that is standing in your fridge or pantry for days or weeks.
 
-![HOW_TO_USE](https://user-images.githubusercontent.com/20372832/77003323-70966180-695d-11ea-8abe-b362d57135f3.gif)
+With **WhatShouldICook?** you can also favorite and rate the meals you have done and share your recipe with the comunity.
 
-2. Clone the app
+## Technologies used
 
-```
-git clone git@github.com:YOUR_GITHUB_NAME/YOUR_PROJECT_NAME.git
-```
+---
 
-3. cd into your project
+### Frontend:
 
-```
-cd YOUR_PROJECT_NAME
-```
+- React
+- Redux
+- Axios
 
-4. install dependencies
+### Backend:
 
-```
-npm install
-```
+- Express
+- REST
+- Sequelize
+- Postgres
+- NodeJS
 
-5. Configure your database in `config/config.json`
+## Goals
 
-Default config is setup for usage with an ElephantSQL database instance, you need to provide the DB Url on the "url" key of the config.json file, key development.
+---
 
-```json
-// config/config.json
-{
-  "development": {
-    "url": "YOUR_ELEPHANTSQL_URL_HERE",
-    "dialect": "postgres",
-    "operatorsAliases": "0"
-  },
-}
-```
+The main goal of this project is to practice all technologies and tools learned in Codaisseur's Full Stack Javascript Academy and try to learn and use new technology by myself.
+Supporting this goal I intend to:
 
+- Create and Follow a doable plan.
+- Have a wireframe of my MVP, considering future new features.
+- Have a Database model of my MVP, considering future new features.
+- Keeping constants and organized commits using Github.
 
-If planning to use this template with a docker database the config object should be changed to:
+## User Stories
 
-```json
-// config/config.json
-{
-  "development": {
-    "username": "postgres",
-    "password": "secret",
-    "database": "YOUR_PROJECT_NAME_HERE_development",
-    "host": "localhost",
-    "dialect": "postgres",
-    "operatorsAliases": "0"
-  }
-}
-```
+---
 
-And you must revert the changes on this line in models/index.js: https://github.com/Codaisseur/express-template/commit/ada7711c8b19c8f240bc61f94743213efe4a77d2#diff-18c449caa39363f82bacb4f7489e7783L15
+#### A - As a User, I want to:
 
+- Fill a form with some ingredients I have in my pantry/fridge and get suggestions of recipes that use that ingredient.
+- Select one recipe and get a full list of ingredients.
+- I also receive the complete recipe that I can share / print.
 
-6. Create database, run migrations & seed data
+#### B - As a logged User, I want to:
 
-`package.json` contains a script for this
+- Favorite, and give ratings to recipes I checked/cooked.
+- Create my own recipes to share with the community.
 
-```bash
-npm run initdev
-```
+### Next Features:
 
-Or run the commands seperately
+- Comment in a Recipe.
+- Post a picture of a Meal I cooked on the Recipe's page.
+- Receive suggestions from different sources besides the community Recipe Database.
 
-```bash
-npx sequelize-cli db:migrate
-npx sequelize-cli db:seed:all
-```
+## Links
 
-7. start server with `nodemon` (recommended for development)
+---
 
-```
-npm run dev
-```
+### Wireframe:
 
-8. or start normally
+[Link to Wireframe](https://wireframepro.mockflow.com/view/Mchp450YTmb)
 
-```
-npm start
-```
+### Database Model:
 
-## Endpoints
+[Link to Database Model](https://lucid.app/lucidchart/01f1a08d-e93c-42db-b1b5-a4c8815e9a67/edit?viewport_loc=319%2C305%2C1650%2C683%2C0_0&invitationId=inv_96b4614e-6a4f-4322-b77a-7af921ba85bd)
 
-| Method | Path                       | Purpose                             | required parameters   | auth |
-| ------ | -------------------------- | ----------------------------------- | --------------------- | ---- |
-| GET    | '/'                        | Test if your server is running      | none                  | no   |
-| POST   | '/echo'                    | Test POST requests                  | none                  | no   |
-| POST   | '/signup'                  | Create a new user and get a token   | email, name, password | no   |
-| POST   | '/login'                   | Get a token with email & password   | email, password       | no   |
-| GET    | '/me'                      | Get information of this user        | none                  | yes  |
-| POST   | '/authorized_post_request' | Test POST requests (token required) | none                  | yes  |
+### Project Board:
 
-## Sample requests with axios
+[Link to Kanban](https://github.com/users/giocapeli/projects/2)
 
-To demo making request to this server, some small script are included that make requests using `axios`
+### Backend repository:
 
-The scripts can be found in [/sampleRequests](./sampleRequests)
+[Link to Backend repository](https://github.com/giocapeli/Portfolio-Backend)
 
-1. Make sure to follow the the setup in this readme first
-2. cd sampleRequests
-3. Run example requests
+### Frontend repository:
 
-```
-node hello.js
-node echo.js
-node signup.js
-node login.js
-node me.js
-node authorizedPost.js
-```
-
-## Sample requests with httpie
-
-To demo making request to this server, bash commands are included that make requests using `httpie`
-
-They can found in [./sampleRequests/httpie.md](./sampleRequests/httpie.md)
-
-## History of this project
-
-- [Setup of the server](https://github.com/Codaisseur/express-template/commit/cd2f790fbab6c561300163466a074fd09a35f704)
-- [Adding a README](https://github.com/Codaisseur/express-template/pull/1)
-- [Setting up the Database](https://github.com/Codaisseur/express-template/pull/2)
-- [Signup, Login & auth middleware](https://github.com/Codaisseur/express-template/pull/3)
-- [Configure cors](https://github.com/Codaisseur/express-template/pull/4)
-- [Seed using models & add delay middleware](https://github.com/Codaisseur/express-template/pull/5)
+[Link to Frontend repository](https://github.com/giocapeli/Portfolio-Frontend)
