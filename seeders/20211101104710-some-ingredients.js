@@ -215,6 +215,51 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          // id 43
+          name: "Dark Chocolate",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Cocoa Powder",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Red Wine",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: "Tagliatelle",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          //id 47
+          name: "Carrot",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          //id 48
+          name: "Yeast",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          //id 49
+          name: "Raisins",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          //id 50
+          name: "Coconut",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

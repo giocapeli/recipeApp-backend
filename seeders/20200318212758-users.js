@@ -28,6 +28,13 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          name: "Giovanni",
+          email: "giovanni@giovanni.com",
+          password: bcrypt.hashSync("giovanni", SALT_ROUNDS),
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
