@@ -8,9 +8,58 @@ const RecipeIngredient = require("../models/").recipe_ingredient;
 const { Op } = require("sequelize");
 const router = new Router();
 const authMiddleware = require("../auth/middleware");
-const { checkPlural, splitAndTrim } = require("../functions/functions");
+const {
+  checkPlural,
+  splitAndTrim,
+  sortByKeyLenght,
+} = require("../functions/functions");
 
 //Post to get a list of recipes using keywords
+// router.get("/test", async (req, res, next) => {
+//   const ingredients = "eggs, salt";
+//   try {
+//     const ingredientList = splitAndTrim(ingredients).map((e) => checkPlural(e));
+//     const ingredientsFound = await Ingredient.findAll({
+//       where: {
+//         [Op.or]: ingredientList.map((e) => {
+//           const search = { name: { [Op.iLike]: `%${e}%` } };
+//           return search;
+//         }),
+//       },
+//     });
+
+//     // const recipeList = await Recipe.findAll({
+//     //   // where: { id: 1 },
+//     //   include: [
+//     //     {
+//     //       model: Ingredient,
+//     //       where: { [Op.or]: [{ name: "Salt" }, { name: "Egg" }] },
+//     //     },
+//     //   ],
+//     // });
+
+//     const findByIngredient = await Recipe.findAll({
+//       include: [
+//         {
+//           model: Ingredient,
+//           where: {
+//             [Op.or]: ingredientList.map((e) => {
+//               const search = { name: { [Op.iLike]: `%${e}%` } };
+//               return search;
+//             }),
+//           },
+//         },
+//         { model: Ingredient, through: { attributes: ["quantity"] } },
+//         { model: User, as: "ratings", through: { attributes: ["rating"] } },
+//       ],
+//     });
+
+//     const sortedList = sortByKeyLenght(findByIngredient, "ingredients");
+
+//     res.send({ Hello: sortedList });
+//   } catch {}
+// });
+
 router.post("/", async (req, res, next) => {
   try {
     const ingredientList = splitAndTrim(req.body.ingredients).map((e) =>
@@ -48,24 +97,25 @@ router.post("/", async (req, res, next) => {
         { model: User, as: "ratings", through: { attributes: ["rating"] } },
       ],
     });
-
     if (!findByIngredient.length > 0) {
       return res.status(400).send({
         message: "No results. Try a different ingredient.",
         status: "Failure",
       });
     }
+    const sortedList = sortByKeyLenght(findByIngredient, "ingredients");
 
     const response = {
       searchInput: ingredientList,
       activeSearch: ingredientsFound.map((e) => e.name),
-      recipes: findByIngredient.map((e) => {
+      recipes: sortedList.map((e) => {
         return {
           title: e.title,
           id: e.id,
           imageUrl: e.imageUrl,
           userId: e.userId,
           ratings: e.ratings.map((e) => e.recipe_user_ratings),
+          matches: e.ingredients.map((e) => e.name),
         };
       }),
     };
@@ -76,14 +126,8 @@ router.post("/", async (req, res, next) => {
       status: "Success",
     });
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data.message);
-      dispatch(setMessage("danger", true, error.response.data.message));
-    } else {
-      console.log(error.message);
-      dispatch(setMessage("danger", true, error.message));
-    }
-    dispatch(appDoneLoading());
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
   }
 });
 
@@ -121,14 +165,8 @@ router.get("/:id", async (req, res, next) => {
 
     res.send({ ...response, message: "Recipe found.", status: "Success" });
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data.message);
-      dispatch(setMessage("danger", true, error.response.data.message));
-    } else {
-      console.log(error.message);
-      dispatch(setMessage("danger", true, error.message));
-    }
-    dispatch(appDoneLoading());
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
   }
 });
 
@@ -154,14 +192,8 @@ router.get("/rating/:recipeId", authMiddleware, async (req, res, next) => {
       status: "Success",
     });
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data.message);
-      dispatch(setMessage("danger", true, error.response.data.message));
-    } else {
-      console.log(error.message);
-      dispatch(setMessage("danger", true, error.message));
-    }
-    dispatch(appDoneLoading());
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
   }
 });
 
@@ -215,14 +247,8 @@ router.post("/favorite", authMiddleware, async (req, res, next) => {
       });
     }
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data.message);
-      dispatch(setMessage("danger", true, error.response.data.message));
-    } else {
-      console.log(error.message);
-      dispatch(setMessage("danger", true, error.message));
-    }
-    dispatch(appDoneLoading());
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
   }
 });
 
@@ -254,14 +280,8 @@ router.patch("/rating", authMiddleware, async (req, res, next) => {
       });
     }
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data.message);
-      dispatch(setMessage("danger", true, error.response.data.message));
-    } else {
-      console.log(error.message);
-      dispatch(setMessage("danger", true, error.message));
-    }
-    dispatch(appDoneLoading());
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
   }
 });
 
@@ -302,14 +322,8 @@ router.post("/createrecipe", authMiddleware, async (req, res, next) => {
       message: "New recipe created.",
     });
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data.message);
-      dispatch(setMessage("danger", true, error.response.data.message));
-    } else {
-      console.log(error.message);
-      dispatch(setMessage("danger", true, error.message));
-    }
-    dispatch(appDoneLoading());
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
   }
 });
 

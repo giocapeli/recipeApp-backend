@@ -1,3 +1,5 @@
+const e = require("express");
+
 function checkPlural(word) {
   const finalEs = ["s", "h", "x", "z"];
   if (word[word.length - 1] === "s") {
@@ -18,4 +20,11 @@ function splitAndTrim(array) {
   return newArray;
 }
 
-module.exports = { checkPlural, splitAndTrim };
+function sortByKeyLenght(array, selectedKey) {
+  const newArray = array.sort(function (a, b) {
+    return b[selectedKey].length - a[selectedKey].length;
+  });
+  return newArray;
+}
+
+module.exports = { checkPlural, splitAndTrim, sortByKeyLenght };
