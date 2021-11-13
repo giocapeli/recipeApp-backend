@@ -14,52 +14,6 @@ const {
   sortByKeyLenght,
 } = require("../functions/functions");
 
-//Post to get a list of recipes using keywords
-// router.get("/test", async (req, res, next) => {
-//   const ingredients = "eggs, salt";
-//   try {
-//     const ingredientList = splitAndTrim(ingredients).map((e) => checkPlural(e));
-//     const ingredientsFound = await Ingredient.findAll({
-//       where: {
-//         [Op.or]: ingredientList.map((e) => {
-//           const search = { name: { [Op.iLike]: `%${e}%` } };
-//           return search;
-//         }),
-//       },
-//     });
-
-//     // const recipeList = await Recipe.findAll({
-//     //   // where: { id: 1 },
-//     //   include: [
-//     //     {
-//     //       model: Ingredient,
-//     //       where: { [Op.or]: [{ name: "Salt" }, { name: "Egg" }] },
-//     //     },
-//     //   ],
-//     // });
-
-//     const findByIngredient = await Recipe.findAll({
-//       include: [
-//         {
-//           model: Ingredient,
-//           where: {
-//             [Op.or]: ingredientList.map((e) => {
-//               const search = { name: { [Op.iLike]: `%${e}%` } };
-//               return search;
-//             }),
-//           },
-//         },
-//         { model: Ingredient, through: { attributes: ["quantity"] } },
-//         { model: User, as: "ratings", through: { attributes: ["rating"] } },
-//       ],
-//     });
-
-//     const sortedList = sortByKeyLenght(findByIngredient, "ingredients");
-
-//     res.send({ Hello: sortedList });
-//   } catch {}
-// });
-
 router.post("/", async (req, res, next) => {
   try {
     const ingredientList = splitAndTrim(req.body.ingredients).map((e) =>
@@ -320,6 +274,40 @@ router.post("/createrecipe", authMiddleware, async (req, res, next) => {
       ...newRecipe.dataValues,
       status: "Success",
       message: "New recipe created.",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({ message: "Something went wrong, sorry" });
+  }
+});
+
+router.post("/delete", authMiddleware, async (req, res, next) => {
+  const { userId, recipeId } = req.body;
+  try {
+    const recipeToDelete = await Recipe.destroy({
+      where: {
+        userId,
+        id: recipeId,
+      },
+    });
+    const favoritesToDelete = await Favorite.destroy({
+      where: {
+        recipeId,
+      },
+    });
+    const ratingsToDelete = await Rating.destroy({
+      where: {
+        recipeId,
+      },
+    });
+    const ingredientListToDelete = await RecipeIngredient.destroy({
+      where: {
+        recipeId,
+      },
+    });
+    res.send({
+      status: "Success",
+      message: "Recipe deleted.",
     });
   } catch (error) {
     console.log(error);
