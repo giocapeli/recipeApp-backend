@@ -4,13 +4,9 @@
 
 ## Intro
 
-Do you have something in your fridge that is close to expiring, and you don't want to waste it, but you are out of ideas of how to cook it?
-Is your pantry full, but you are still struggling to decide what to eat and are afraid to end having the same soup as every day?
-Did you discover a new recipe that opened your eyes to a new world of flavors, and, as a generous person, you want to share it with everyone?
+This is the backend of WhatShouldICook? web app. All the logic, filtering, sorting and validation are made by the backend. The endpoints require authentication when they change the database. Besides the requested data, the responses also send back the request status and a message.
 
-**WhatShouldICook?** is a web app that is going to help you to solve all those situations. With **WhatShouldICook?** you can search recipes by ingredients and receive suggestions of how to give good use to that ingredient that is standing in your fridge or pantry for days or weeks.
-
-With **WhatShouldICook?** you can also favorite and rate the meals you have done and share your recipe with the community.
+**WhatShouldICook?** is a web app that helps people decide what to cook, finding recipes using ingredients they already have in the fridge or pantry. You can search by multiple ingredients and the first results are the ones with more matches. The user can also save recipes as favorites, rate the ones he already cooked, or even contribute to the community by posting his own recipes.
 
 ## Technologies used
 
@@ -38,24 +34,71 @@ Supporting this goal I intend to:
 - Have a Database model of my MVP, considering future new features.
 - Keeping constants and organized commits using Github.
 
-## User Stories
+## Endpoints
 
-#### A - As a User, I want to:
+#### POST("recipe/"):
+- Not require authentication
+- The body must be a string with the ingredients separeted by comma.
+- The response is an object with the following data:
+- - a list of recipes with: title, id, imageUrl, ratings and number of matches. The array is sorted by number of matches.
+- - the list of ingredients found
+- - the list of ingredients requested
 
-- Fill a form with some ingredients I have in my pantry/fridge and get suggestions of recipes that use that ingredient.
-- Select one recipe and get a full list of ingredients.
-- I also receive the complete recipe that I can share / print.
+#### GET("recipe/:id"):
+- Not require authentication
+- The id must be the recipe id.
+- The response is an object with the following data:
+- - All recipe's data that matches the informed id.
 
-#### B - As a logged User, I want to:
+#### POST("recipe/favorite"):
+- Require authentication
+- The body must be an object with userId and recipeId.
+- The endpoint will check if the recipe is favorite and if yes, undo it, if not, favorite it.
+- The endpoint don't allows a user favorite his own recipe.
+- The response is an object with the following data:
+- - A message, status and the recipe favorited/unfavorited.
 
-- Favorite, and give ratings to recipes I checked/cooked.
-- Create my own recipes to share with the community.
+#### PATCH("recipe/rating"):
+- Require authentication
+- The body must be an object with userId, recipeId and rating.
+- The endpoint will check if the recipe is already rated by the user and if yes, update its rating, if not, create a new rating.
+- The endpoint don't allows a user rate his own recipe.
+- The response is an object with the following data:
+- - A message, status and the recipe rated.
 
-### Next Features:
+#### POST("recipe/createrecipe"):
+- Require authentication
+- The body must be an object with title, description, content, imageUrl, userId and ingredientList.
+- The endpoint will create a new recipe with the date send.
+- Then, the endpoint will create the ingredients if they are not in the database.
+- The response is an object with the following data:
+- - A message, status and the recipe created.
 
-- Comment in a Recipe.
-- Post a picture of a Meal I cooked on the Recipe's page.
-- Receive suggestions from different sources besides the community Recipe Database.
+#### DELETE("recipe/delete"):
+- Require authentication
+- The body must be an object with userId and recipeId.
+- The endpoint will check if the user owns the recipe and if yes, delete it.
+- The response is an object with the following data:
+- - A message and status.
+
+#### GET("ingredients/all"):
+- Not require authentication
+- The response is an object with the following data:
+- - A list with all ingredients in the database.
+
+#### POST("user/login"):
+- Require authentication
+- The body must be an object with email and password.
+- The endpoint will check if there is a user with the informed password.
+- The response is an object with the following data:
+- - All the user data, a token but not the password.
+
+#### POST("user/signup"):
+- Not require authentication
+- The body must be an object with name, email and password.
+- The endpoint will check if the user exists, if not, will create a new user
+- The response is an object with the following data:
+- - All the new user data, a token but not the password.
 
 ## Links
 
