@@ -1,0 +1,23 @@
+{
+  "development": {
+    "url": "postgres://qlmjdvoj:rNr-rDAt8cnsHJ3DF-IaAw0R_Im6o_qq@hattie.db.elephantsql.com/qlmjdvoj",
+    "dialect": "postgres",
+    "operatorsAliases": "0"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": "0"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
